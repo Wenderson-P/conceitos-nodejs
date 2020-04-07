@@ -11,7 +11,21 @@ app.use(cors());
 const repositories = [];
 
 app.get('/repositories', (request, response) => response.json(repositories));
-  // TODO
+
+app.post('/repositories', (request, response) => {
+  const { url, title, techs } = request.body;
+
+  const repository = {
+    id: uuid(),
+    url,
+    title,
+    techs,
+    likes: 0,
+  };
+
+  repositories.push(repository);
+
+  return response.json(repository);
 });
 
 app.post("/repositories", (request, response) => {
