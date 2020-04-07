@@ -28,8 +28,29 @@ app.post('/repositories', (request, response) => {
   return response.json(repository);
 });
 
-app.post("/repositories", (request, response) => {
-  // TODO
+app.put('/repositories/:id', (request, response) => {
+  const { id } = request.params;
+  const { url, title, techs } = request.body;
+
+  const repositoryIndex = repositories.findIndex((repository) => repository.id === id);
+
+  if (repositoryIndex < 0) {
+    return response.status(400).json({ error: 'Repository does not exists' });
+  }
+
+  const { likes } = repositories[repositoryIndex];
+
+  const repository = {
+    id,
+    url,
+    title,
+    techs,
+    likes,
+  };
+
+  repositories[repositoryIndex] = repository;
+
+  return response.json(repository);
 });
 
 app.delete('/repositories/:id', (request, response) => {
